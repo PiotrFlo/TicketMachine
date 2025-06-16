@@ -21,11 +21,11 @@ class TicketMachine:
     def _add_tickets(self):
         add_more = "t"
         while add_more.lower() == "t":
-            name, price = self._choose_ticket(self.menu)
-            self.cart.add_ticket(Ticket(name, price))
+            name, price, category, group = self._choose_ticket(self.menu)
+            self.cart.add_ticket(Ticket(name, price, category, group))
             add_more = input("Czy chcesz dodać kolejny bilet (t/n)? ")
 
-    def _choose_ticket(self, menu):
+    def _choose_ticket(self, menu, category=None, group=None):
         print("Jaką opcję biletu chcesz kupić?")
         options = list(menu.keys())
         for i, option in enumerate(options):
@@ -34,11 +34,18 @@ class TicketMachine:
             choice = int(input("Wybór: "))
         except ValueError:
             print("Niepoprawna wartość.")
-            return self._choose_ticket(menu)
+            return self._choose_ticket(menu, category, group)
         if choice < 0 or choice >= len(options):
             print("Niepoprawny numer.")
-            return self._choose_ticket(menu)
-        selected = menu[options[choice]]
-        if isinstance(selected, dict):
-            return self._choose_ticket(selected)
-        return options[choice], selected
+            return self._choose_ticket(menu, category, group)
+
+        selected_key = options[choice]
+        selected_value = menu[selected_key]
+
+        if isinstance(selected_value, dict):
+            if category is None:
+                return self._choose_ticket(selected_value, category=selected_key, group=group)
+            else:
+                return self._choose_ticket(selected_value, category=category, group=selected_key)
+
+        return selected_key, selected_value, category, group
