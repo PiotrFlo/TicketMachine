@@ -10,5 +10,6 @@ class Cart:
 
     def display(self):
         print("\nTwoje bilety:")
-        for ticket in self.tickets:
-            print(ticket)
+        for index, ticket in enumerate(self.tickets):
+            print(f"{index+1}.\t{ticket}")
+        print(f"Wartość koszyka:\t{sum(ticket.price for ticket in self.tickets)} zł\n")
