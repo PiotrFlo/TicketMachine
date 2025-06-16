@@ -8,11 +8,11 @@ class Payment_method:
         print(f"Kwota do zapłaty - {self.amount} zł")
         method = input("Wybierz metodę płatności: \nb - BLIK\nk - karta\ng - gotówka\n")
 
-        if method == "b":
+        if method.lower() == "b":
             self._blik()
-        elif method == "k":
+        elif method.lower() == "k":
             self._card()
-        elif method == "g":
+        elif method.lower() == "g":
             self._cash()
         else:
             retry = input("Niepoprawna opcja. Spróbować ponownie (t/n)? ")
